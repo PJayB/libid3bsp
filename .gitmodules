@@ -1,0 +1,3 @@
+[submodule "lexy"]
+	path = lexy
+	url = git@github.com:foonathan/lexy.git
