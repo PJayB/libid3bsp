@@ -2,6 +2,9 @@
 #include <cassert>
 #include <memory.h>
 
+namespace id3bsp
+{
+
 namespace IBSP
 {
 	struct BrushSide
@@ -416,3 +419,4 @@ int BSP::Tessellate(
 	return static_cast<int>(vertices.size()) - vOffset;
 }
 
+}
