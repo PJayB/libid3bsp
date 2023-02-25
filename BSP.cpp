@@ -148,58 +148,6 @@ BSP::~BSP()
 {
 	Unload();
 }
-
-void GammaCorrect(uint8_t* image, uint32_t size, float factor)
-{
-	for ( uint32_t i = 0; i < size; ++i, image += 3 )
-	{
-		float r = ( (float)image[0] ) * factor;
-		float g = ( (float)image[1] ) * factor;
-		float b = ( (float)image[2] ) * factor;
-	
-		image[0] = std::min( (uint32_t)( r ), (uint32_t)0xFFU );
-		image[1] = std::min( (uint32_t)( g ), (uint32_t)0xFFU );
-		image[2] = std::min( (uint32_t)( b ), (uint32_t)0xFFU );
-	}
-	
-/*
-	// Go through every pixel in the lightmap
-	for(int i = 0; i < size; i++, image += 3) 
-	{
-		float scale = 1.0f, temp = 0.0f;
-		float r = 0, g = 0, b = 0;
-		
-		// extract the current RGB values
-		r = (float)image[0];
-		g = (float)image[1];
-		b = (float)image[2];
-		
-		// Multiply the factor by the RGB values, while keeping it to a 255 ratio
-		r = r * factor / 255.0f;
-		g = g * factor / 255.0f;
-		b = b * factor / 255.0f;
-		
-		// Check if the the values went past the highest value
-		if(r > 1.0f && (temp = (1.0f/r)) < scale) scale=temp;
-		if(g > 1.0f && (temp = (1.0f/g)) < scale) scale=temp;
-		if(b > 1.0f && (temp = (1.0f/b)) < scale) scale=temp;
-		
-		// Get the scale for this pixel and multiply it by our pixel values
-		scale*=255.0f;		
-		r*=scale;	g*=scale;	b*=scale;
-		
-		// Assign the new gamma'nized RGB values to our image
-		image[0] = (uint8_t)r;
-		image[1] = (uint8_t)g;
-		image[2] = (uint8_t)b;
-	}
-*/	
-}
-
-float BSP::GetLightMapGamma()
-{
-	return  5.0f;
-}
 	
 template<class T>
 static void ReadLump( const uint8_t* cursor, std::vector<T>& array, const BSP::Lump& lump )

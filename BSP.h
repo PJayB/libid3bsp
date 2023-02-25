@@ -1,5 +1,4 @@
-#ifndef __BSP_H__
-#define __BSP_H__
+#pragma once
 
 #include <cstdlib>
 #include <vector>
@@ -205,8 +204,6 @@ public:
 		float X, Y, Z, W;
 	};
 
-
-
 	typedef std::vector<Texture>			TMaterialList;
 	typedef std::vector<Plane>				TPlaneList;
 	typedef std::vector<Node>				TNodeList;
@@ -254,9 +251,6 @@ public:
 		size_t cbSize );
 	
 	~BSP();
-	
-	static float				
-	GetLightMapGamma( );
 
 	static void
 	Tessellate(
@@ -265,6 +259,11 @@ public:
 		TIndexList& indices,
 		int numSubdivions);
 
+private:
+	BSP();
+	bool				Load( const uint8_t* lpBytes, size_t cbSize );
+	void				Unload();
+
 	static int
 	Tessellate(
 		const Vertex* controlPoints,
@@ -272,16 +271,8 @@ public:
 		TIndexList& indices,
 		int numSubdivisions,
 		int indexOffset);
-	
-protected:
-
-	BSP();
-	bool				Load( const uint8_t* lpBytes, size_t cbSize );
-	void				Unload();
 };
 
 // Utilities for interpolating vertices
 BSP::Vertex operator + (const BSP::Vertex& v1, const BSP::Vertex& v2);
 BSP::Vertex operator * (const BSP::Vertex& v1, const float& d);
-
-#endif
