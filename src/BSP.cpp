@@ -1,4 +1,4 @@
-#include "BSP.h"
+#include <id3bsp/BSP.h>
 #include <cassert>
 #include <memory.h>
 
