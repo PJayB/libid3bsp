@@ -6,6 +6,7 @@ add_subdirectory(lexy)
 
 add_library(libid3bsp
     src/BSP.cpp
+    src/Entities.cpp
     )
 
 target_compile_features(libid3bsp PRIVATE cxx_std_17)
