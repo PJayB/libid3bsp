@@ -8,6 +8,8 @@ add_library(libid3bsp
     src/BSP.cpp
     )
 
+target_compile_features(libid3bsp PRIVATE cxx_std_17)
+
 target_include_directories(libid3bsp
     PUBLIC include
     PRIVATE lexy/include)
