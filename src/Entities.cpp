@@ -32,21 +32,9 @@ struct string : lexy::token_production
         }
     };
 
-    // A mapping of the simple escape sequences to their replacement values.
-    static constexpr auto escaped_symbols = lexy::symbol_table<char> //
-                                                .map<'"'>('"')
-                                                .map<'\\'>('\\')
-                                                .map<'/'>('/')
-                                                .map<'b'>('\b')
-                                                .map<'f'>('\f')
-                                                .map<'n'>('\n')
-                                                .map<'r'>('\r')
-                                                .map<'t'>('\t');
-
     static constexpr auto rule = [] {
         auto code_point = (-dsl::unicode::control).error<invalid_char>;
-        auto escape = dsl::backslash_escape.symbol<escaped_symbols>();
-        return dsl::quoted.limit(dsl::ascii::newline)(code_point, escape);
+        return dsl::quoted.limit(dsl::ascii::newline)(code_point);
     }();
 
     static constexpr auto value = lexy::as_string<storage::string,
