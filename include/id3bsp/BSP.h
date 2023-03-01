@@ -261,6 +261,14 @@ namespace id3bsp
 			TIndexList& indices,
 			int numSubdivions);
 
+		static void
+		Tessellate(
+			Face& f,
+			const TVertexList& existingVertices,
+			TVertexList& newVertices,
+			TIndexList& newIndices,
+			int numSubdivions);
+
 	private:
 		BSP();
 		bool				Load( const uint8_t* lpBytes, size_t cbSize );
@@ -269,8 +277,8 @@ namespace id3bsp
 		static int
 		Tessellate(
 			const Vertex* controlPoints,
-			TVertexList& vertices,
-			TIndexList& indices,
+			TVertexList& newVertices,
+			TIndexList& newIndices,
 			int numSubdivisions,
 			int indexOffset);
 	};

@@ -313,14 +313,24 @@ void BSP::Tessellate(
 	BSP::TIndexList& indices,
 	int numSubdivions)
 {
+	Tessellate(f, vertices, vertices, indices, numSubdivions);
+}
+
+void BSP::Tessellate(
+	BSP::Face& f,
+	const BSP::TVertexList& ogVertices,
+	BSP::TVertexList& newVertices,
+	BSP::TIndexList& newIndices,
+	int numSubdivions)
+{
 	int verticesPerRow = f.BezierDimensions[0];
 	int numPatchesX = f.BezierDimensions[0] / 2;
 	int numPatchesY = f.BezierDimensions[1] / 2;
 
 	auto cpBaseOffset = f.StartVertexIndex;
 
-	f.StartVertexIndex = static_cast<int>(vertices.size());
-	f.StartIndex = static_cast<int>(indices.size());
+	f.StartVertexIndex = static_cast<int>(newVertices.size());
+	f.StartIndex = static_cast<int>(newIndices.size());
 
 	int indexOffset = 0;
 	for (int j = 0; j < numPatchesY; ++j) {
@@ -330,28 +340,28 @@ void BSP::Tessellate(
 			int cpPatchOffs3 = cpPatchOffs2 + verticesPerRow;
 			
 			const BSP::Vertex controlPoints[9] = {
-				vertices[cpPatchOffs1+0],
-				vertices[cpPatchOffs1+1],
-				vertices[cpPatchOffs1+2],
-				vertices[cpPatchOffs2+0],
-				vertices[cpPatchOffs2+1],
-				vertices[cpPatchOffs2+2],
-				vertices[cpPatchOffs3+0],
-				vertices[cpPatchOffs3+1],
-				vertices[cpPatchOffs3+2],
+				ogVertices[cpPatchOffs1+0],
+				ogVertices[cpPatchOffs1+1],
+				ogVertices[cpPatchOffs1+2],
+				ogVertices[cpPatchOffs2+0],
+				ogVertices[cpPatchOffs2+1],
+				ogVertices[cpPatchOffs2+2],
+				ogVertices[cpPatchOffs3+0],
+				ogVertices[cpPatchOffs3+1],
+				ogVertices[cpPatchOffs3+2],
 			};
 
 			indexOffset += Tessellate(
 				controlPoints,
-				vertices,
-				indices,
+				newVertices,
+				newIndices,
 				numSubdivions,
 				indexOffset);
 		}
 	}
 
-	f.NumIndices = static_cast<int>(indices.size()) - f.StartIndex;
-	f.NumVertices = static_cast<int>(vertices.size()) - f.StartVertexIndex;
+	f.NumIndices = static_cast<int>(newIndices.size()) - f.StartIndex;
+	f.NumVertices = static_cast<int>(newVertices.size()) - f.StartVertexIndex;
 	f.FaceType = BSP::kPolygon;
 }
 
