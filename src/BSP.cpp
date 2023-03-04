@@ -338,17 +338,11 @@ void BSP::Tessellate(
 			int cpPatchOffs1 = cpBaseOffset + j * verticesPerRow * 2 + i * 2;
 			int cpPatchOffs2 = cpPatchOffs1 + verticesPerRow;
 			int cpPatchOffs3 = cpPatchOffs2 + verticesPerRow;
-			
-			const BSP::Vertex controlPoints[9] = {
-				ogVertices[cpPatchOffs1+0],
-				ogVertices[cpPatchOffs1+1],
-				ogVertices[cpPatchOffs1+2],
-				ogVertices[cpPatchOffs2+0],
-				ogVertices[cpPatchOffs2+1],
-				ogVertices[cpPatchOffs2+2],
-				ogVertices[cpPatchOffs3+0],
-				ogVertices[cpPatchOffs3+1],
-				ogVertices[cpPatchOffs3+2],
+
+			const BSP::Vertex* controlPoints[3] = {
+				&ogVertices[cpPatchOffs1],
+				&ogVertices[cpPatchOffs2],
+				&ogVertices[cpPatchOffs3]
 			};
 
 			indexOffset += Tessellate(
@@ -367,7 +361,7 @@ void BSP::Tessellate(
 
 // Shamelessly stolen from git@github.com:leezh/bspviewer.git
 int BSP::Tessellate(
-	const BSP::Vertex* controls,
+	const BSP::Vertex** controls,
 	BSP::TVertexList& vertices,
 	BSP::TIndexList& indices,
 	int numSubdivisions,
@@ -383,7 +377,7 @@ int BSP::Tessellate(
         float a = (float)j / numSubdivisions;
         float b = 1.f - a;
 
-        vertices.push_back(controls[0] * b * b + controls[3] * 2 * b * a + controls[6] * a * a);
+        vertices.push_back(controls[0][0] * b * b + controls[1][0] * 2 * b * a + controls[2][0] * a * a);
     }
 
     for (int i = 1; i <= numSubdivisions; ++i)
@@ -395,8 +389,7 @@ int BSP::Tessellate(
 
         for (int j = 0; j < 3; ++j)
         {
-            int k = 3 * j;
-            temp[j] = controls[k + 0] * b * b + controls[k + 1] * 2 * b * a + controls[k + 2] * a * a;
+            temp[j] = controls[j][0] * b * b + controls[j][1] * 2 * b * a + controls[j][2] * a* a;
         }
 
         for (int j = 0; j <= numSubdivisions; ++j)

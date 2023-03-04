@@ -269,18 +269,18 @@ namespace id3bsp
 			TIndexList& newIndices,
 			int numSubdivions);
 
-	private:
-		BSP();
-		bool				Load( const uint8_t* lpBytes, size_t cbSize );
-		void				Unload();
-
 		static int
 		Tessellate(
-			const Vertex* controlPoints,
+			const Vertex** controlPoints,
 			TVertexList& newVertices,
 			TIndexList& newIndices,
 			int numSubdivisions,
 			int indexOffset);
+
+	private:
+		BSP();
+		bool				Load( const uint8_t* lpBytes, size_t cbSize );
+		void				Unload();
 	};
 }
 
