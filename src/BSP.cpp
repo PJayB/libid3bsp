@@ -283,30 +283,6 @@ void BSP::Unload()
 	Format = 0;
 }
 
-BSP::Vertex operator + (const BSP::Vertex& v1, const BSP::Vertex& v2)
-{
-    BSP::Vertex temp;
-    add_vector(temp.Position, v1.Position, v2.Position);
-	add_vector(temp.TexCoord, v1.TexCoord, v2.TexCoord);
-    for (int i = 0; i < BSP::kMaxLightMaps; ++i) {
-        add_vector(temp.LMCoord[i], v1.LMCoord[i], v2.LMCoord[i]);
-    }
-    add_vector(temp.Normal, v1.Normal, v2.Normal);
-    return temp;
-}
-
-BSP::Vertex operator * (const BSP::Vertex& v1, const float& d)
-{
-    BSP::Vertex temp;
-    scale_vector(temp.Position, v1.Position, d);
-    scale_vector(temp.TexCoord, v1.TexCoord, d);
-    for (int i = 0; i < BSP::kMaxLightMaps; ++i) {
-        scale_vector(temp.LMCoord[i], v1.LMCoord[i], d);
-    }
-    scale_vector(temp.Normal, v1.Normal, d);
-    return temp;
-}
-
 void BSP::Tessellate(
 	BSP::Face& f,
 	BSP::TVertexList& vertices,
@@ -422,4 +398,31 @@ int BSP::Tessellate(
 	return static_cast<int>(vertices.size()) - vOffset;
 }
 
+}
+
+id3bsp::BSP::Vertex operator + (const id3bsp::BSP::Vertex& v1,
+	const id3bsp::BSP::Vertex& v2)
+{
+	using namespace id3bsp;
+    BSP::Vertex temp;
+    add_vector(temp.Position, v1.Position, v2.Position);
+	add_vector(temp.TexCoord, v1.TexCoord, v2.TexCoord);
+    for (int i = 0; i < BSP::kMaxLightMaps; ++i) {
+        add_vector(temp.LMCoord[i], v1.LMCoord[i], v2.LMCoord[i]);
+    }
+    add_vector(temp.Normal, v1.Normal, v2.Normal);
+    return temp;
+}
+
+id3bsp::BSP::Vertex operator * (const id3bsp::BSP::Vertex& v1, const float& d)
+{
+	using namespace id3bsp;
+    BSP::Vertex temp;
+    scale_vector(temp.Position, v1.Position, d);
+    scale_vector(temp.TexCoord, v1.TexCoord, d);
+    for (int i = 0; i < BSP::kMaxLightMaps; ++i) {
+        scale_vector(temp.LMCoord[i], v1.LMCoord[i], d);
+    }
+    scale_vector(temp.Normal, v1.Normal, d);
+    return temp;
 }
